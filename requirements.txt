@@ -1,2 +1,5 @@
 # GUI
-pygame-ce==2.5.8
+pygame-ce>=2.5.8
+
+# ENV
+python-dotenv>=1.2.4
