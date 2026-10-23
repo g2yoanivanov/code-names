@@ -11,7 +11,7 @@ def run_server():
     print(f'Listening on port {network_config.PORT}...')
 
     conn, addr = server.accept()
-    print('Connected by {addr}')
+    print(f'Connected by {addr}')
 
     while True:
         data = conn.recv(1024)
