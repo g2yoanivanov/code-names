@@ -100,14 +100,14 @@ class ButtonBuilder:
         Initialize the builder with default button configuration values.
         """
         self._coords = (0, 0)
-        self._width = 100
-        self._height = 50
+        self._width = pygame_config.BTN_WIDTH
+        self._height = pygame_config.BTN_HEIGHT
         self._text = "Button"
-        self._text_color = (255, 255, 255)
-        self._color = (0, 0, 255)
-        self._hover_color = (0, 100, 255)
-        self._shadow_color = (50, 50, 50)
-        self._elevation = 5
+        self._text_color = pygame_config.TEXT_LIGHT
+        self._color = pygame_config.BTN_MAIN
+        self._hover_color = pygame_config.BTN_HOVER
+        self._shadow_color = pygame_config.BTN_SHADOW
+        self._elevation = pygame_config.BTN_ELEVATION
 
     def set_coords(self, coords: tuple):
         """

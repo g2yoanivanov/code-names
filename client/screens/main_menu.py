@@ -14,45 +14,43 @@ def main_menu(running: bool, screen: pygame.Surface, clock: pygame.time.Clock) -
 
     center = screen.get_rect().center
 
+    host_button = (
+        ButtonBuilder()
+        .set_coords((
+            center[0] - pygame_config.BTN_WIDTH // 2,
+            center[1] - 2*pygame_config.BTN_SPACING
+        ))
+        .set_text("Host Game")
+        .build()
+    )
+
     join_button = (
         ButtonBuilder()
-        .set_coords((center[0] - 100, center[1] - 100))
-        .set_width(200)
-        .set_height(50)
+        .set_coords((
+            center[0] - pygame_config.BTN_WIDTH // 2, 
+            center[1] - pygame_config.BTN_SPACING
+        ))
         .set_text("Join Game")
-        .set_text_color(pygame_config.COLORS["CREAM"])
-        .set_color(pygame_config.BTN_MAIN)
-        .set_hover_color(pygame_config.BTN_HOVER)
-        .set_shadow_color(pygame_config.BTN_SHADOW)
-        .set_elevation(5)
         .build()
     )
 
     settings_button = (
             ButtonBuilder()
-            .set_coords((center[0] - 100, center[1]))
-            .set_width(200)
-            .set_height(50)
+            .set_coords((
+                center[0] - pygame_config.BTN_WIDTH // 2, 
+                center[1]
+            ))
             .set_text("Settings")
-            .set_text_color(pygame_config.COLORS["CREAM"])
-            .set_color(pygame_config.BTN_MAIN)
-            .set_hover_color(pygame_config.BTN_HOVER)
-            .set_shadow_color(pygame_config.BTN_SHADOW)
-            .set_elevation(5)
             .build()
         )
 
     quit_button = (
         ButtonBuilder()
-        .set_coords((center[0] - 100, center[1] + 100))
-        .set_width(200)
-        .set_height(50)
+        .set_coords((
+            center[0] - pygame_config.BTN_WIDTH // 2,
+            center[1] + pygame_config.BTN_SPACING
+        ))
         .set_text("Quit")
-        .set_text_color(pygame_config.COLORS["CREAM"])
-        .set_color(pygame_config.BTN_MAIN)
-        .set_hover_color(pygame_config.BTN_HOVER)
-        .set_shadow_color(pygame_config.BTN_SHADOW)
-        .set_elevation(5)
         .build()
     )
 
@@ -63,11 +61,14 @@ def main_menu(running: bool, screen: pygame.Surface, clock: pygame.time.Clock) -
             if event.type == pygame.QUIT:
                 running = False
 
+        if host_button.draw(screen):
+            pass
+
         if join_button.draw(screen):
             pass
 
-        if settings_button.draw(screen):
-            settings_menu.settings_menu(running, screen, clock)
+        # if settings_button.draw(screen):
+        #     settings_menu.settings_menu(running, screen, clock)
 
         if quit_button.draw(screen):
             print("Quit button clicked!")
@@ -75,5 +76,3 @@ def main_menu(running: bool, screen: pygame.Surface, clock: pygame.time.Clock) -
 
         pygame.display.flip()
         clock.tick(pygame_config.FPS)
-
-    pygame.quit()

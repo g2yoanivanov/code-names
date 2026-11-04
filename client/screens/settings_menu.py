@@ -13,59 +13,45 @@ def settings_menu(running: bool, screen: pygame.Surface, clock: pygame.time.Cloc
     """
     pygame.display.set_caption("Settings Menu")
 
+    center = screen.get_rect().center
+
     start_button = (
         ButtonBuilder()
-        .set_coords((300, 200))
-        .set_width(200)
-        .set_height(50)
+        .set_coords((
+            center[0] - pygame_config.BTN_WIDTH // 2,
+            center[1] - 2*pygame_config.BTN_SPACING
+        ))
         .set_text("Start Game")
-        .set_text_color(pygame_config.COLORS["CREAM"])
-        .set_color(pygame_config.BTN_MAIN)
-        .set_hover_color(pygame_config.BTN_HOVER)
-        .set_shadow_color(pygame_config.BTN_SHADOW)
-        .set_elevation(5)
         .build()
     )
 
     fullscreen_button = (
         ButtonBuilder()
-        .set_coords((300, 300))
-        .set_width(200)
-        .set_height(50)
+        .set_coords((
+            center[0] - pygame_config.BTN_WIDTH // 2,
+            center[1] - pygame_config.BTN_SPACING
+        ))
         .set_text("Fullscreen")
-        .set_text_color(pygame_config.COLORS["CREAM"])
-        .set_color(pygame_config.BTN_MAIN)
-        .set_hover_color(pygame_config.BTN_HOVER)
-        .set_shadow_color(pygame_config.BTN_SHADOW)
-        .set_elevation(5)
         .build()
     )
 
     windowed_button = (
         ButtonBuilder()
-        .set_coords((300, 400))
-        .set_width(200)
-        .set_height(50)
+        .set_coords((
+            center[0] - pygame_config.BTN_WIDTH // 2,
+            center[1]
+        ))
         .set_text("800x600")
-        .set_text_color(pygame_config.COLORS["CREAM"])
-        .set_color(pygame_config.BTN_MAIN)
-        .set_hover_color(pygame_config.BTN_HOVER)
-        .set_shadow_color(pygame_config.BTN_SHADOW)
-        .set_elevation(5)
         .build()
     )
 
-    quit_button = (
+    back_button = (
         ButtonBuilder()
-        .set_coords((300, 500))
-        .set_width(200)
-        .set_height(50)
-        .set_text("Quit")
-        .set_text_color(pygame_config.COLORS["CREAM"])
-        .set_color(pygame_config.BTN_MAIN)
-        .set_hover_color(pygame_config.BTN_HOVER)
-        .set_shadow_color(pygame_config.BTN_SHADOW)
-        .set_elevation(5)
+        .set_coords((
+            center[0] - pygame_config.BTN_WIDTH // 2,
+            center[1] + 2*pygame_config.BTN_SPACING
+        ))
+        .set_text("Done")
         .build()
     )
 
@@ -77,25 +63,17 @@ def settings_menu(running: bool, screen: pygame.Surface, clock: pygame.time.Cloc
                 running = False
 
         if fullscreen_button.draw(screen):
-            screen = pygame.display.set_mode(
-                pygame_config.FULLSCREEN_SIZE,
-                pygame.FULLSCREEN
-            )
+            pass
 
         if windowed_button.draw(screen):
-            screen = pygame.display.set_mode(
-                pygame_config.SCREEN_SIZE
-            )
+            pass
 
         if start_button.draw(screen):
             main_menu.main_menu(running, screen, clock)
 
-        if quit_button.draw(screen):
-            print("Quit button clicked!")
+        if back_button.draw(screen):
+            print("Back button clicked!")
             running = False
 
         pygame.display.flip()
         clock.tick(pygame_config.FPS)
-
-    pygame.quit()
-    pygame.quit()
