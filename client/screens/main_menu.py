@@ -1,78 +1,91 @@
 """Main menu screen for the Pygame client."""
 import pygame
 
-from client.screens import settings_menu
-from settings import pygame_config
 from client.components.button import ButtonBuilder
+from client.screens.settings_menu import SettingsMenuScreen
+from settings import pygame_config
 
 
-def main_menu(running: bool, screen: pygame.Surface, clock: pygame.time.Clock) -> None:
+class MainMenuScreen:
     """
-    Run the main menu screen.
+    A class representing the main menu screen.
     """
-    pygame.display.set_caption("Main Menu")
 
-    center = screen.get_rect().center
+    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
+        """
+        Initialize the main menu screen and its buttons.
+        """
+        self.screen = screen
+        self.clock = clock
+        self.running = True
+        self._create_buttons()
 
-    host_button = (
-        ButtonBuilder()
-        .set_coords((
-            center[0] - pygame_config.BTN_WIDTH // 2,
-            center[1] - 2*pygame_config.BTN_SPACING
-        ))
-        .set_text("Host Game")
-        .build()
-    )
+    def _create_buttons(self) -> None:
+        """
+        Create and position the main menu buttons based on the current screen center.
+        """
+        center = self.screen.get_rect().center
+        btn_x = center[0] - pygame_config.BTN_WIDTH // 2
 
-    join_button = (
-        ButtonBuilder()
-        .set_coords((
-            center[0] - pygame_config.BTN_WIDTH // 2, 
-            center[1] - pygame_config.BTN_SPACING
-        ))
-        .set_text("Join Game")
-        .build()
-    )
-
-    settings_button = (
+        self.host_button = (
             ButtonBuilder()
-            .set_coords((
-                center[0] - pygame_config.BTN_WIDTH // 2, 
-                center[1]
-            ))
+            .set_coords((btn_x, center[1] - 2 * pygame_config.BTN_SPACING))
+            .set_text("Host Game")
+            .build()
+        )
+
+        self.join_button = (
+            ButtonBuilder()
+            .set_coords((btn_x, center[1] - pygame_config.BTN_SPACING))
+            .set_text("Join Game")
+            .build()
+        )
+
+        self.settings_button = (
+            ButtonBuilder()
+            .set_coords((btn_x, center[1]))
             .set_text("Settings")
             .build()
         )
 
-    quit_button = (
-        ButtonBuilder()
-        .set_coords((
-            center[0] - pygame_config.BTN_WIDTH // 2,
-            center[1] + pygame_config.BTN_SPACING
-        ))
-        .set_text("Quit")
-        .build()
-    )
+        self.quit_button = (
+            ButtonBuilder()
+            .set_coords((btn_x, center[1] + pygame_config.BTN_SPACING))
+            .set_text("Quit")
+            .build()
+        )
 
-    while running:
-        screen.fill(pygame_config.BG_MAIN)
+    def run(self) -> None:
+        """
+        Run the main menu event and rendering loop.
+        """
+        pygame.display.set_caption("Main Menu")
+        self.running = True
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+        while self.running:
+            self.screen.fill(pygame_config.BG_MAIN)
 
-        if host_button.draw(screen):
-            pass
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
 
-        if join_button.draw(screen):
-            pass
+            if self.host_button.draw(self.screen):
+                pass
 
-        # if settings_button.draw(screen):
-        #     settings_menu.settings_menu(running, screen, clock)
+            if self.join_button.draw(self.screen):
+                pass
 
-        if quit_button.draw(screen):
-            print("Quit button clicked!")
-            running = False
+            if self.settings_button.draw(self.screen):
+                settings_screen = SettingsMenuScreen(self.screen, self.clock)
+                keep_running = settings_screen.run()
+                self.screen = settings_screen.screen
+                self._create_buttons()
+                pygame.display.set_caption("Main Menu")
+                if not keep_running:
+                    self.running = False
 
-        pygame.display.flip()
-        clock.tick(pygame_config.FPS)
+            if self.quit_button.draw(self.screen):
+                self.running = False
+
+            pygame.display.flip()
+            self.clock.tick(pygame_config.FPS)

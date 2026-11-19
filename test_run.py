@@ -1,22 +1,22 @@
 import pygame
 
-from client.screens import main_menu
+from client.screens.main_menu import MainMenuScreen
 from settings import pygame_config
 
 
 def main() -> None:
     """
-    Entry point for the application.
+    Entry point for testing the UI screens.
     """
     pygame.init()
     screen = pygame.display.set_mode(pygame_config.FULLSCREEN_SIZE, pygame.FULLSCREEN)
-
     clock = pygame.time.Clock()
-    running = True
 
-    main_menu.main_menu(running, screen, clock)
+    menu = MainMenuScreen(screen, clock)
+    menu.run()
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
